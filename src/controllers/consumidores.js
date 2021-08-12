@@ -1,4 +1,4 @@
-const knex = require("../../../Restaurante/src/database/conexao");
+const knex = require('../database/conexao');
 const bcrypt = require('bcrypt');
 const schemaCadastroConsumidor = require("../validations/schemas/schemaCadastroConsumidores");
 const validarAtualizacaoConsumidor = require('../validations/atualizacaoConsumidor');
