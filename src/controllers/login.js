@@ -13,7 +13,7 @@ const login = async (req, res) => {
     if (!consumidor) return res.status(404).json({ erro: 'Este consumidor não foi encontrado' });
 
     const senhaCorreta = await bcrypt.compare(senha, consumidor.senha);
-    if (!senhaCorreta) return res.status(400).json("O email ou senha estão incorretos");
+    if (!senhaCorreta) return res.status(400).json({ erro: "O email ou senha estão incorretos" });
 
     const token = jwt.sign({ id: consumidor.id }, process.env.SENHA_HASH);
 
