@@ -20,6 +20,7 @@ const detalharProduto = async (req, res) => {
 
 
 
+
 module.exports = {
   detalharProduto
 }
