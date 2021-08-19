@@ -62,14 +62,34 @@ const obterConsumidor = async (req, res) => {
   try {
     const consumidorPerfil = await knex('consumidor').where('id', consumidor.id).first();
 
-    return res.status(200).json(consumidorPerfil);
+    const { senha: _, ...dadosConsumidor } = consumidorPerfil;
+
+    return res.status(200).json(dadosConsumidor);
   } catch (error) {
     return res.status(400).json({ erro: error.message });
   }
 };
 
+const addEndereco = async (req, res) => {
+  const { endereco } = req.body;
+  const { consumidor } = req;
+
+  try {
+    const novoEndereco = await knex('consumidor').update({ endereco }).where({ id: consumidor.id }).returning('*');
+    if (!novoEndereco) return res.status(400).json({ erro: "Não foi possível salvar este endereço" });
+
+    const { senha: _, ...dadosConsumidor } = novoEndereco[0];
+
+    return res.status(200).json(dadosConsumidor);
+  } catch (error) {
+    return res.status(400).json({ erro: error.message });
+  }
+
+}
+
 module.exports = {
   cadastrarConsumidor,
   atualizarConsumidor,
-  obterConsumidor
+  obterConsumidor,
+  addEndereco
 };

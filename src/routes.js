@@ -1,5 +1,5 @@
 const express = require('express');
-const { cadastrarConsumidor, obterConsumidor, atualizarConsumidor } = require('./controllers/consumidores');
+const { cadastrarConsumidor, obterConsumidor, atualizarConsumidor, addEndereco } = require('./controllers/consumidores');
 const { login } = require('./controllers/login');
 const { detalharPedido, listarPedidos, finalizarPedido } = require('./controllers/pedidos');
 const { detalharProduto } = require('./controllers/produtos');
@@ -15,6 +15,7 @@ router.use(loginAuth);
 
 router.get('/perfil_consumidor', obterConsumidor);
 router.put('/atualizar_consumidor', atualizarConsumidor);
+router.put('/add_endereco', addEndereco);
 
 router.get('/restaurantes', listarRestaurantes);
 router.get('/restaurantes/:id', obterRestaurante);

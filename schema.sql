@@ -25,3 +25,6 @@ CREATE TABLE IF NOT EXISTS produto_pedido (
 	FOREIGN KEY(produto_id) REFERENCES produto(id),
   FOREIGN KEY(pedido_id) REFERENCES pedido(id)
 );
+
+ALTER TABLE consumidor
+ADD endereco TEXT;
