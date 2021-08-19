@@ -15,7 +15,7 @@ router.use(loginAuth);
 
 router.get('/perfil_consumidor', obterConsumidor);
 router.put('/atualizar_consumidor', atualizarConsumidor);
-router.put('/add_endereco', addEndereco);
+router.post('/add_endereco', addEndereco);
 
 router.get('/restaurantes', listarRestaurantes);
 router.get('/restaurantes/:id', obterRestaurante);

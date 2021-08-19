@@ -2,6 +2,7 @@ const knex = require('../database/conexao');
 const bcrypt = require('bcrypt');
 const schemaCadastroConsumidor = require("../validations/schemas/schemaCadastroConsumidores");
 const validarAtualizacaoConsumidor = require('../validations/atualizacaoConsumidor');
+const schemaAddEndereco = require('../validations/schemas/schemaAddEndereco');
 
 const cadastrarConsumidor = async (req, res) => {
   const { nome, email, telefone, senha } = req.body;
@@ -62,6 +63,10 @@ const obterConsumidor = async (req, res) => {
   try {
     const consumidorPerfil = await knex('consumidor').where('id', consumidor.id).first();
 
+    const endereco = await knex('endereco').where({ consumidor_id: consumidor.id }).first();
+
+    consumidorPerfil.endereco = endereco;
+
     const { senha: _, ...dadosConsumidor } = consumidorPerfil;
 
     return res.status(200).json(dadosConsumidor);
@@ -71,16 +76,16 @@ const obterConsumidor = async (req, res) => {
 };
 
 const addEndereco = async (req, res) => {
-  const { endereco } = req.body;
+  const { endereco, cep, complemento } = req.body;
   const { consumidor } = req;
 
   try {
-    const novoEndereco = await knex('consumidor').update({ endereco }).where({ id: consumidor.id }).returning('*');
+    await schemaAddEndereco.validate(req.body);
+
+    const novoEndereco = await knex('endereco').insert({ consumidor_id: consumidor.id, endereco, cep, complemento }).returning('*');
     if (!novoEndereco) return res.status(400).json({ erro: "Não foi possível salvar este endereço" });
 
-    const { senha: _, ...dadosConsumidor } = novoEndereco[0];
-
-    return res.status(200).json(dadosConsumidor);
+    return res.status(200).json(novoEndereco[0]);
   } catch (error) {
     return res.status(400).json({ erro: error.message });
   }
