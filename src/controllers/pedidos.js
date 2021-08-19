@@ -47,21 +47,17 @@ const finalizarPedido = async (req, res) => {
 
     const produtosRestaurante = await knex('produto').where({ restaurante_id: id });
 
-    const produtosAtivos = [];
-
-    for (const p of produtosRestaurante) {
-      if (p.ativo) {
-        produtosAtivos.push(p);
-      }
-    }
-
-    restaurante.produtos = produtosAtivos;
-
     const pedidoProduto = [];
 
     for (const x of produtos) {
-      for (const y of produtosAtivos) {
+      for (const y of produtosRestaurante) {
         if (x.id === y.id) {
+          if (y.ativo === false) {
+            return res.status(400).json({
+              erro: "Parece que o restaurante desativou este produto antes de você finalizar a compra",
+              produto: y
+            });
+          }
           pedidoProduto.push({
             produto_id: y.id,
             preco: y.preco,
