@@ -51,7 +51,7 @@ const finalizarPedido = async (req, res) => {
 
     for (const x of produtos) {
       for (const y of produtosRestaurante) {
-        if (x.id === y.id) {
+        if (x.id == y.id) {
           if (y.ativo === false) {
             return res.status(400).json({
               erro: "Parece que o restaurante desativou este produto antes de você finalizar a compra",
@@ -61,7 +61,7 @@ const finalizarPedido = async (req, res) => {
           pedidoProduto.push({
             produto_id: y.id,
             preco: y.preco,
-            quantidade: x.quantidade,
+            quantidade: Number(x.quantidade),
             preco_total: y.preco * x.quantidade,
             ativo: y.ativo
           });
