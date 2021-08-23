@@ -39,7 +39,7 @@ const detalharPedido = async (req, res) => {
 const finalizarPedido = async (req, res) => {
   const { consumidor } = req;
   const { id } = req.params;
-  const { produtos } = req.body;
+  const { subtotal, produtos } = req.body;
 
   try {
     const restaurante = await knex('restaurante').where({ id }).first();
@@ -68,12 +68,6 @@ const finalizarPedido = async (req, res) => {
         }
       }
     }
-
-    const precos = [];
-    for (const item of pedidoProduto) {
-      precos.push(item.preco);
-    }
-    const subtotal = precos.reduce((acc, x) => acc + x);
 
     const pedidoDetalhes = {
       restaurante_id: Number(id),

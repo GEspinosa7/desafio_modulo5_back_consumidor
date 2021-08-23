@@ -12,7 +12,7 @@ const login = async (req, res) => {
     const consumidor = await knex('consumidor').where({ email }).first();
     if (!consumidor) return res.status(404).json({ erro: 'Este consumidor não foi encontrado' });
 
-    const endereco = await knex('endereco').where({ consumidor_id: consumidor.id });
+    const endereco = await knex('endereco').where({ consumidor_id: consumidor.id }).first();
 
     const senhaCorreta = await bcrypt.compare(senha, consumidor.senha);
     if (!senhaCorreta) return res.status(400).json({ erro: "O email ou senha estão incorretos" });
