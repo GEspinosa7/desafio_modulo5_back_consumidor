@@ -21,11 +21,10 @@ const login = async (req, res) => {
 
     const { senha: _, ...dadosConsumidor } = consumidor;
 
-    dadosConsumidor.endereco = endereco;
-
 
     return res.status(200).json({
       consumidor: dadosConsumidor,
+      endereco,
       token,
     });
 
