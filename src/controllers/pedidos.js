@@ -1,41 +1,5 @@
 const knex = require('../database/conexao');
 
-const listarPedidos = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const restaurantes = await knex('restaurante').where({ id }).first();
-    if (!restaurantes) return res.status(404).json({ erro: "Este restaurante não existe" });
-
-    const pedidos = await knex('pedido').where({ restaurante_id: id });
-
-    return res.status(200).json(pedidos);
-  } catch (error) {
-    return res.status(400).json({ erro: error.message });
-  }
-}
-
-const detalharPedido = async (req, res) => {
-  const { idRes, idPed } = req.params;
-
-  try {
-    const restaurantes = await knex('restaurante').where({ id: idRes }).first();
-    if (!restaurantes) return res.status(404).json({ erro: "Este restaurante não existe" });
-
-    const pedido = await knex('pedido').where({ id: idPed, restaurante_id: idRes }).first();
-    if (!pedido) return res.status(404).json({ erro: "Este pedido não existe" });
-
-    const produtosPedido = await knex('produto_pedido').where({ pedido_id: idPed });
-
-    pedido.produtos = produtosPedido;
-
-    return res.status(200).json(pedido);
-  } catch (error) {
-    return res.status(400).json({ erro: error.message });
-  }
-
-}
-
 const finalizarPedido = async (req, res) => {
   const { consumidor } = req;
   const { id } = req.params;
