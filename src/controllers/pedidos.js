@@ -60,7 +60,5 @@ const finalizarPedido = async (req, res) => {
 }
 
 module.exports = {
-  detalharPedido,
-  listarPedidos,
   finalizarPedido
 };
