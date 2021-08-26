@@ -24,7 +24,7 @@ const login = async (req, res) => {
 
     return res.status(200).json({
       consumidor: dadosConsumidor,
-      endereco,
+      endereco: endereco.length[endereco.length - 1],
       token,
     });
 
